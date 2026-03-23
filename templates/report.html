@@ -4,15 +4,17 @@
 
 <h1>REPORT</h1>
 
-{% for group_num, students  in groups.items() %}
+<a href="{{ url_for('report', num_groups=optimized_groups_list|length) }}">Re-generate groups</a>
 
-    <h3>Group {{group_num}} | Diversity Score: {{ metrics[group_num] }}</h3>
-
-    {% for student in students %}
+{% for group in optimized_groups_list %}
+    <p>Group {{loop.index}}  | Diversity Score: {{ metrics[loop.index-1] }}</p>
+    {% for student in group %}
         <p>{{student}}</p>
-        {% endfor %}
+    {% endfor %}
 
 {% endfor %}
 
 
 {% endblock %}
+
+

@@ -42,7 +42,13 @@ def form_add():
         if form.validate_on_submit(): 
             data = form.data       
            
-            new_student = Student(name=data['name'], science=data['science'], graduation_year=data['graduation_year'])
+            new_student = Student(
+                name=data['name'], 
+                science1=data['science1'], 
+                science2=data['science2'], 
+                science3=data['science3'], 
+                graduation_year=data['graduation_year'])
+            
             db.session.add(new_student)
             db.session.commit()
 
@@ -72,36 +78,26 @@ def form_report():
 def report(num_groups):
     # Querying the database
     students = Student.query.all()
-    print(students)
 
     optimized_groups_list = assign_to_groups(students, num_groups)
 
-    print(optimized_groups_list)
 
-    # Convert to dictionary for Template and update DB
-    groups = {}
     group_metrics = {} # Stores {Group_ID: Score}
 
+    for i in range(len(optimized_groups_list)):
+        group = optimized_groups_list[i]
+        group_metrics[i] = diversity_score(group)
 
-    for idx, group_list in enumerate(optimized_groups_list):
-        group_id = idx + 1
-        groups[group_id] = group_list
-
-        group_metrics[group_id] = diversity_score(group_list)
-        print(diversity_score(group_list))
-
-        for student in group_list:
-            student.group = group_id
+        for student in group:
+            student.group_num = i
     
     db.session.commit()
 
-    print(groups)
-    print(group_metrics)
-
+    
     return render_template(
             'report.html', 
-            groups = groups,
             metrics=group_metrics,
+            optimized_groups_list=optimized_groups_list
            )
 
 if __name__ == '__main__': 

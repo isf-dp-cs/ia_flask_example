@@ -1,13 +1,31 @@
 import random
+from collections import Counter
 
 def diversity_score(group):
-    """
-    Example: Higher score for a better mix of sciences.
-    Returns the count of unique science majors in the group.
-    """
-    if not group: return 0
-    sciences = [s.science for s in group]
-    return len(set(sciences))
+    _TRAITS = ['science1', 'science2', 'science3']
+    score = 0
+    # Compare every student to every other student in the group
+    for i in range(len(group)):
+        student_1 = group[i]
+        
+        # Start the second loop from the next student to avoid double-counting
+        for j in range(i + 1, len(group)):
+            student_2 = group[j]
+            
+            # Check every trait for a match
+            for k in range(len(_TRAITS)):
+                trait_name = _TRAITS[k]
+                
+                val_1 = getattr(student_1, trait_name)
+                val_2 = getattr(student_2, trait_name)
+                
+                # Only compare if the values are not None or empty strings
+                if val_1 and val_2:
+                    if val_1 == val_2:
+                        score -= 1
+                        
+    return score
+
 
 def maybe_swap(group_1, group_2):
     """Based on Ms. Genzlinger's version with help of Gemini """

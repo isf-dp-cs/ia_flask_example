@@ -10,15 +10,15 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 100vh;   
 }
 
+/* NAV BAR  */
 
 .nav{
     background-color: #1E447E;
     padding: 20px 0px;
     display:flex;
-
+    height:25px;
 }
 
 .nav a{
@@ -28,22 +28,20 @@ body {
 }
 
 
+/* FORM */
 
-/* Each row container */
 form div {
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
 }
 
-/* Force labels to a consistent width so inputs line up */
 form label {
     flex: 0 0 200px; 
     text-align: left;
     margin-right: 10px;
 }
 
-/* Make the input take up the rest of the space */
 form input:not([type="submit"]), 
 form select, 
 form textarea {
